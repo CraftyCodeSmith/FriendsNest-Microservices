@@ -21,13 +21,20 @@ dependencies {
 
 
 	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//	for annotattions and web app
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+//testsing
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	developmentOnly "org.springframework.boot:spring-boot-devtools"
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+//	for jetty
 	implementation 'org.springframework.boot:spring-boot-starter-jetty'
+	//postgres
 	implementation 'org.postgresql:postgresql'
+	//dot env
+	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
 	// the GOAT ORM
 	implementation 'org.hibernate.orm:hibernate-core:6.6.1.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
