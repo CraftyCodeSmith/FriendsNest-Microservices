@@ -34,7 +34,8 @@ dependencies {
 	implementation 'org.postgresql:postgresql'
 	//dot env
 	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
-
+	//liquibase for data migrations and seeding
+	implementation 'org.liquibase:liquibase-core'
 	// the GOAT ORM
 	implementation 'org.hibernate.orm:hibernate-core:6.6.1.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
