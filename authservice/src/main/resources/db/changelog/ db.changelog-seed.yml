@@ -1,8 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: "1"
-      author: Daman
-      changes:
-#        - loadData:
-#            file: classpath:db/seeds/data.csv
-#            tableName: your_table

@@ -1,75 +1,70 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.3.4'
-	id 'io.spring.dependency-management' version '1.1.6'
+    id 'java'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.craftycodesmith'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//	for annotattions and web app
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-//testsing
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	developmentOnly "org.springframework.boot:spring-boot-devtools"
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-//	for jetty
-	implementation 'org.springframework.boot:spring-boot-starter-jetty'
-	//postgres
-	implementation 'org.postgresql:postgresql'
-	//dot env
-	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
-	//liquibase for data migrations and seeding
-	implementation 'org.liquibase:liquibase-core'
-	// the GOAT ORM
-	implementation 'org.hibernate.orm:hibernate-core:6.6.1.Final'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	// Hibernate Validator
-	implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
-	implementation 'org.glassfish:jakarta.el:4.0.2'
+    // Jetty
+    implementation 'org.springframework.boot:spring-boot-starter-jetty'
 
+    // PostgreSQL
+    implementation 'org.postgresql:postgresql'
 
-	// Agroal connection pool
-	implementation 'org.hibernate.orm:hibernate-agroal:6.6.1.Final'
-	implementation 'io.agroal:agroal-pool:2.1'
+    // Dotenv
+    implementation 'me.paulschwarz:spring-dotenv:4.0.0'
 
-	// logging via Log4j
-	implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    // Hibernate
+    implementation 'org.hibernate.orm:hibernate-core:6.6.1.Final'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
+    implementation 'org.glassfish:jakarta.el:4.0.2'
 
-	// JPA Metamodel Generator
-	annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen:6.6.1.Final'
+    // Agroal connection pool
+    implementation 'org.hibernate.orm:hibernate-agroal:6.6.1.Final'
+    implementation 'io.agroal:agroal-pool:2.1'
 
-	// Compile-time checking for HQL
-	//implementation 'org.hibernate:query-validator:2.0-SNAPSHOT'
-	//annotationProcessor 'org.hibernate:query-validator:2.0-SNAPSHOT'
+    // Logging via Log4j
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
 
-	// H2 database
-	runtimeOnly 'com.h2database:h2:2.1.214'
-	runtimeOnly 'org.postgresql:postgresql'
+    // JPA Metamodel Generator
+    annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen:6.6.1.Final'
+
+    // H2 database (for testing)
+    runtimeOnly 'com.h2database:h2:2.1.214'
+
+    // Liquibase
+    implementation 'org.liquibase:liquibase-core:4.17.2'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
-
 configurations {
-	all {
-		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
-	}
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
 }

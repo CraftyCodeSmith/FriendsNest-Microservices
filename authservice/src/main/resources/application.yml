@@ -11,11 +11,11 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yml
-
-# Optional: Logging configuration
+    change-log: classpath:db/changelog/master.yml
+    enabled: true
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.hibernate.type: TRACE
+debug: true
