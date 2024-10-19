@@ -7,16 +7,11 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-
 @Controller
 public class SignalingController {
 
     @Autowired
     SimpMessagingTemplate messagingTemplate;
-
-//    public SignalingController(SimpMessagingTemplate messagingTemplate) {
-//        this.messagingTemplate = messagingTemplate;
-//    }
 
     @MessageMapping("/signal")
     @SendTo("/topic/messages")

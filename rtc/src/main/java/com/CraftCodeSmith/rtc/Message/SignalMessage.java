@@ -1,93 +1,41 @@
 package com.CraftCodeSmith.rtc.Message;
 
 public class SignalMessage {
-    private String from;
-    private String to;
-    private String type;
-    private String content;
-    private String text;
+    private String type; // e.g., "offer", "answer", "ice-candidate"
+    private String sender; // Unique identifier for the sender
+    private String target; // Unique identifier for the target recipient
+    private RTCSessionDescription sdp; // SDP data (for "offer" and "answer")
+    private ICECandidate candidate; // ICE candidate data (for "ice-candidate")
 
-    public String getText(){
-        return text;
-    }
-    public void setText(String text){
-        this.text=text;
-    }
-    // Getter and setter for 'from'
-
-    public String getFrom() {
-        return from;
+    public Object getSender() {
+        return sender;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public String getTarget() {
+        return target;
     }
 
-    // Getter and setter for 'to'
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
-    // Getter and setter for 'type'
-    public String getType() {
+    public Object getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    // Getters and Setters
+
+    // Inner class for ICE candidates
+    public static class ICECandidate {
+        private String candidate;
+        private String sdpMid;
+        private int sdpMLineIndex;
+        private String usernameFragment;
+
+        // Getters and Setters
     }
 
-    // Getter and setter for 'content'
-    public String getContent() {
-        return content;
-    }
+    // Inner class for RTCSessionDescription
+    public static class RTCSessionDescription {
+        private String type; // "offer" or "answer"
+        private String sdp;
 
-    public void setContent(String content) {
-        this.content = content;
+        // Getters and Setters
     }
 }
-
-//    private String from;
-//    private String to;
-//    private String type;
-//    private String content;
-//
-//    // Getter and setter for 'from'
-//    public String getFrom() {
-//        return from;
-//    }
-//
-//    public void setFrom(String from) {
-//        this.from = from;
-//    }
-//
-//    // Getter and setter for 'to'
-//    public String getTo() {
-//        return to;
-//    }
-//
-//    public void setTo(String to) {
-//        this.to = to;
-//    }
-//
-//    // Getter and setter for 'type'
-//    public String getType() {
-//        return type;
-//    }
-//
-//    public void setType(String type) {
-//        this.type = type;
-//    }
-//
-//    // Getter and setter for 'content'
-//    public String getContent() {
-//        return content;
-//    }
-//
-//    public void setContent(String content) {
-//        this.content = content;
-//    }
