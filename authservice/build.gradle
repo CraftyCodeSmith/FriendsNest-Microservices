@@ -59,7 +59,7 @@ dependencies {
     runtimeOnly 'com.h2database:h2:2.1.214'
 
     // Liquibase
-    implementation 'org.liquibase:liquibase-core:4.17.2'
+    implementation 'org.liquibase:liquibase-core'
 }
 
 tasks.named('test') {

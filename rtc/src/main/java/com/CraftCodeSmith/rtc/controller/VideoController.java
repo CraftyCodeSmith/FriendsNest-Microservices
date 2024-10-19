@@ -8,10 +8,10 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class VideoController {
 
-    @MessageMapping("/signal")
+    @MessageMapping("/video-signal")
     @SendTo("/topic/calls")
-    public SignalMessage handleSignal(SignalMessage message) {
-        return message; // Echo the message back to all subscribers
+    public SignalMessage handleVideoSignal(SignalMessage message) {
+        return message;
     }
 }
 

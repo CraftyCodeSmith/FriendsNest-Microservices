@@ -3,9 +3,17 @@ spring:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 600000  # 10 minutes
+      max-lifetime: 1800000  # 30 minutes
+  devtools:
+    livereload:
+      enabled: true
   jpa:
     hibernate:
-      ddl-auto: update  # Or create, create-drop, validate as needed
+      ddl-auto: none  # Or create, create-drop, validate as needed
     show-sql: true
     properties:
       hibernate:
@@ -18,4 +26,5 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.hibernate.type: TRACE
+    liquibase: DEBUG
 debug: true
