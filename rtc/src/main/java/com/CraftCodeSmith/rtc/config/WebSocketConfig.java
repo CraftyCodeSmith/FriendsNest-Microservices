@@ -9,16 +9,14 @@ import org.springframework.web.socket.config.annotation.*;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/video-call")
-                .setAllowedOrigins("http://localhost:5173") // Frontend origin
-                .withSockJS(); // Enable SockJS fallback options
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/topic");
+        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/app"); // Prefix for messages bound for methods
-        registry.enableSimpleBroker("/topic", "/user"); // Enable simple in-memory broker for subscriptions
-        registry.setUserDestinationPrefix("/user"); // Prefix for user-specific destinations
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/video-websocket")
+                .setAllowedOrigins("http://localhost:5173");
     }
 }
