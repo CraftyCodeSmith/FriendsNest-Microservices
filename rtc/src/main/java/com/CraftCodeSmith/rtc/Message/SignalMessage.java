@@ -1,41 +1,59 @@
 package com.CraftCodeSmith.rtc.Message;
 
+import com.CraftCodeSmith.rtc.types.ClientId;
+import com.CraftCodeSmith.rtc.types.ICECandidate;
+import com.CraftCodeSmith.rtc.types.RTCSessionDescription;
+//import com.CraftCodeSmith.rtc.types.RTCSessionDescription;package com.CraftCodeSmith.rtc.Message;
+
 public class SignalMessage {
     private String type; // e.g., "offer", "answer", "ice-candidate"
-    private String sender; // Unique identifier for the sender
-    private String target; // Unique identifier for the target recipient
+    private ClientId sender; // Changed to an external class for sender
+    private ClientId target; // Changed to an external class for target
     private RTCSessionDescription sdp; // SDP data (for "offer" and "answer")
     private ICECandidate candidate; // ICE candidate data (for "ice-candidate")
 
-    public Object getSender() {
-        return sender;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public Object getType() {
-        return type;
+    // Default Constructor
+    public SignalMessage() {
     }
 
     // Getters and Setters
-
-    // Inner class for ICE candidates
-    public static class ICECandidate {
-        private String candidate;
-        private String sdpMid;
-        private int sdpMLineIndex;
-        private String usernameFragment;
-
-        // Getters and Setters
+    public String getType() {
+        return type;
     }
 
-    // Inner class for RTCSessionDescription
-    public static class RTCSessionDescription {
-        private String type; // "offer" or "answer"
-        private String sdp;
+    public void setType(String type) {
+        this.type = type;
+    }
 
-        // Getters and Setters
+    public ClientId getSender() {
+        return sender;
+    }
+
+    public void setSender(ClientId sender) {
+        this.sender = sender;
+    }
+
+    public ClientId getTarget() {
+        return target;
+    }
+
+    public void setTarget(ClientId target) {
+        this.target = target;
+    }
+
+    public RTCSessionDescription getSdp() {
+        return sdp;
+    }
+
+    public void setSdp(RTCSessionDescription sdp) {
+        this.sdp = sdp;
+    }
+
+    public ICECandidate getCandidate() {
+        return candidate;
+    }
+
+    public void setCandidate(ICECandidate candidate) {
+        this.candidate = candidate;
     }
 }
