@@ -1,14 +1,13 @@
 package com.CraftCodeSmith.rtc.Message;
 
-import com.CraftCodeSmith.rtc.types.ClientId;
+import java.util.UUID;
 import com.CraftCodeSmith.rtc.types.ICECandidate;
 import com.CraftCodeSmith.rtc.types.RTCSessionDescription;
-//import com.CraftCodeSmith.rtc.types.RTCSessionDescription;package com.CraftCodeSmith.rtc.Message;
 
 public class SignalMessage {
     private String type; // e.g., "offer", "answer", "ice-candidate"
-    private ClientId sender; // Changed to an external class for sender
-    private ClientId target; // Changed to an external class for target
+    private UUID sender; // Changed to UUID for sender
+    private UUID target; // Changed to UUID for target
     private RTCSessionDescription sdp; // SDP data (for "offer" and "answer")
     private ICECandidate candidate; // ICE candidate data (for "ice-candidate")
 
@@ -25,19 +24,18 @@ public class SignalMessage {
         this.type = type;
     }
 
-    public ClientId getSender() {
+    public UUID getSender() {
         return sender;
     }
 
-    public void setSender(ClientId sender) {
+    public void setSender(UUID sender) {
         this.sender = sender;
     }
 
-    public ClientId getTarget() {
+    public UUID getTarget() {
         return target;
     }
-
-    public void setTarget(ClientId target) {
+    public void setTarget(UUID target) {
         this.target = target;
     }
 

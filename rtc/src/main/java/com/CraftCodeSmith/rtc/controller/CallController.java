@@ -1,16 +1,21 @@
 package com.CraftCodeSmith.rtc.controller;
-
 import com.CraftCodeSmith.rtc.Message.SignalMessage;
+import com.CraftCodeSmith.rtc.config.StompPrincipal;
 import com.CraftCodeSmith.rtc.util.SessionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.*;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.user.SimpUser;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.socket.messaging.SessionConnectEvent;
+
+import java.security.Principal;
+import java.util.UUID;
 
 @Controller
 public class CallController {
@@ -34,24 +39,17 @@ public class CallController {
     @MessageMapping("/call") // Clients send to /app/call
     public void handleCall(@Payload SignalMessage message) throws Exception {
 
-        if( message.getType().equals("offer")) {
+        if ("offer".equals(message.getType())) {
+            String recipient = message.getTarget().toString();
 
-            // Log or use the sender and target client IDs directly
-            System.out.println("Type: " + message.getType());
-            System.out.println("Sender Client ID: " + message.getSender().getClientId());
-            System.out.println("Target Client ID: " + message.getTarget().getClientId());
 
-            // Retrieve the session IDs for sender and target clients
-            String clientSessionId = sessionHandler.getSession(message.getSender().getClientId());
-            String targetSessionId = sessionHandler.getSession(message.getTarget().getClientId());
-            // Log session IDs if needed
-            System.out.println("Client Session ID: " + clientSessionId);
-            System.out.println("Target Session ID: " + targetSessionId);
+            // Log the message details
 
-//            messagingTemplate.convertAndSendToUser( targetSessionId,"/topic/call",clientSessionId);
-            messagingTemplate.convertAndSend("/topic/call",  targetSessionId);
+
+            messagingTemplate.convertAndSendToUser(recipient, "/queue/call", message);
         }
 
-
+        if (message.getType().equals("answer")) {
+        }
     }
 }
