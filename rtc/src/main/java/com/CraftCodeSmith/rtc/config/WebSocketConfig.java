@@ -17,7 +17,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/video-websocket")
                 .setHandshakeHandler(new ClientIdHandshakeHandler())
                 .addInterceptors(new ClientIdHandshakeInterceptor())
-                .setAllowedOrigins("http://localhost:5173");
+                .setAllowedOrigins("*");
     }
 
     @Override

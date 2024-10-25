@@ -19,15 +19,19 @@ public class CallController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    @Autowired
-    private SessionHandler sessionHandler;
-
-    @Autowired
-    private SimpUserRegistry simpUserRegistry;
-
     @MessageMapping("/call")
     public void handleCall(@Payload SignalMessage message) throws Exception {
         if ("offer".equals(message.getType())) {
+            String recipient = message.getTarget().toString();
+            System.out.println("sdp"+message.getSdp());
+            messagingTemplate.convertAndSendToUser(recipient, "/queue/call", message);
+        }
+
+        if("answer".equals(message.getType())){
+            String recipient = message.getTarget().toString();
+            messagingTemplate.convertAndSendToUser(recipient, "/queue/call", message);
+        }
+        if("ice-candidate".equals(message.getType())){
             String recipient = message.getTarget().toString();
             messagingTemplate.convertAndSendToUser(recipient, "/queue/call", message);
         }
