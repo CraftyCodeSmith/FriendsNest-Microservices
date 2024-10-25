@@ -1,38 +1,36 @@
 package com.CraftCodeSmith.rtc.util;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class SessionHandler {
 
-    private final Map<UUID, String> sessionMap = new ConcurrentHashMap<>();
+    private final Map<String, String> sessionMap = new ConcurrentHashMap<>();
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    // Inner class named Key
-
-    public void addSession(UUID clientID, String sessionId) {
+    public void addSession(String clientID, String sessionId) {
         sessionMap.put(clientID, sessionId);
         sendUpdateToFrontend(); // Send real-time update to frontend
     }
 
-    public void removeSession(UUID clientId) {
+    public void removeSession(String clientId) {
         sessionMap.remove(clientId);
         sendUpdateToFrontend(); // Send real-time update to frontend
     }
 
-    public String getSession(UUID clientId) {
+    public String getSession(String clientId) {
         return sessionMap.get(clientId);
     }
-    public UUID getClientIdBySession(String sessionId) {
-        for (Map.Entry<UUID, String> entry : sessionMap.entrySet()) {
+
+    public String getClientIdBySession(String sessionId) {
+        for (Map.Entry<String, String> entry : sessionMap.entrySet()) {
             if (entry.getValue().equals(sessionId)) {
                 return entry.getKey();
             }

@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/ws/**") // Apply to all endpoints
+        registry.addMapping("/video-websocket/**") // Apply to all endpoints
                 .allowedOrigins("http://localhost:5173") // Allow your extension
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")

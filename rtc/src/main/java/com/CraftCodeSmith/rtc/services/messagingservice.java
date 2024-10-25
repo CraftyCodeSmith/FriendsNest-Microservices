@@ -16,7 +16,7 @@ public class messagingservice {
     }
 
     public void sendMessageToClient(UUID clientId, String message) {
-        String sessionId = sessionHandler.getSession(clientId);
+        String sessionId = sessionHandler.getSession(String.valueOf(clientId));
         if (sessionId != null) {
             messagingTemplate.convertAndSendToUser(sessionId, "/topic/yourDestination", message);
         }

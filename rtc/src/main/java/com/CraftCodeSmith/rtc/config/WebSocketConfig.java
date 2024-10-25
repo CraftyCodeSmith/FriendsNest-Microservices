@@ -1,11 +1,12 @@
 package com.CraftCodeSmith.rtc.config;
 
-import com.CraftCodeSmith.rtc.util.SessionHandler;
+import com.CraftCodeSmith.rtc.util.ClientIdHandshakeHandler;
+import com.CraftCodeSmith.rtc.util.ClientIdHandshakeInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
-import org.springframework.web.socket.config.annotation.*;
-import org.springframework.web.socket.messaging.SessionConnectEvent;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -14,16 +15,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/video-websocket")
+                .setHandshakeHandler(new ClientIdHandshakeHandler())
+                .addInterceptors(new ClientIdHandshakeInterceptor())
                 .setAllowedOrigins("http://localhost:5173");
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
+        // Configure the message broker (adjust prefixes as needed)
         config.enableSimpleBroker("/topic", "/queue");
         config.setApplicationDestinationPrefixes("/app");
         config.setUserDestinationPrefix("/user");
     }
-
-
-
 }
