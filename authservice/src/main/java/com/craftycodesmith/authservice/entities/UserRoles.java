@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "UserRoles")
-public class UserRolesEntity {
+public class UserRoles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,9 +17,9 @@ public class UserRolesEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private UsersEntity user;
+    private Users user;
 
     @ManyToOne
     @JoinColumn(name = "role_id", insertable = false, updatable = false)
-    private RolesEntity role;
+    private Roles role;
 }

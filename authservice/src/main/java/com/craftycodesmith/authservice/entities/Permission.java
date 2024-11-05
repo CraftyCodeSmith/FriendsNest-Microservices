@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "Roles")
-public class RolesEntity {
+@Table(name = "Permission")
+public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(length = 255, nullable = false)
     private String name;
@@ -17,6 +17,7 @@ public class RolesEntity {
     @Column(length = 255)
     private String description;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    private Set<UserRolesEntity> userRoles;
+    @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL)
+    private Set<RolePermissions> rolePermissions;
+
 }

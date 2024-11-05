@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "RolePermissions")
-public class RolePermissionsEntity {
+public class RolePermissions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "role_id")
     private Long roleId;
@@ -17,10 +17,10 @@ public class RolePermissionsEntity {
 
     @ManyToOne
     @JoinColumn(name = "role_id", insertable = false, updatable = false)
-    private RolesEntity role;
+    private Roles role;
 
     @ManyToOne
     @JoinColumn(name = "permission_id", insertable = false, updatable = false)
-    private PermissionEntity permission;
+    private Permission permission;
 
 }

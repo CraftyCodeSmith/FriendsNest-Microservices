@@ -5,8 +5,6 @@ plugins {
 }
 
 
-
-
 group = 'com.craftycodesmith'
 version = '0.0.1-SNAPSHOT'
 
@@ -24,7 +22,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
+    // Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // For OAuth2 login
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    //For working with jwts
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

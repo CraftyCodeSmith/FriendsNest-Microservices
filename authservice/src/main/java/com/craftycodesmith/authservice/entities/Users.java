@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Users") // You can change "users" to your desired table name
-public class UsersEntity {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,6 +43,14 @@ public class UsersEntity {
 
     // Relations
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private UserRolesEntity userRoles;
+    private UserRoles userRoles;
 
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUsername() {
+        return email;
+    }
 }

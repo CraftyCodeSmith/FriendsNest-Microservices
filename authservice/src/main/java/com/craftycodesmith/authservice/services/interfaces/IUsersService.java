@@ -1,11 +1,11 @@
 package com.craftycodesmith.authservice.services.interfaces;
 
-import com.craftycodesmith.authservice.entities.UsersEntity;
+import com.craftycodesmith.authservice.entities.Users;
 
 import java.util.List;
 
 public interface IUsersService {
 
-    List<UsersEntity> getAllUsers();
+    List<Users> getAllUsers();
 
 }

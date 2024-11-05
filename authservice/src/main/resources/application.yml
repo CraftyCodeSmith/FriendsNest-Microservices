@@ -8,19 +8,23 @@ spring:
       minimum-idle: 5
       idle-timeout: 600000  # 10 minutes
       max-lifetime: 1800000  # 30 minutes
+security:
+  jwt:
+    secret-key:secret
+    expiration-time:3600000
   devtools:
     livereload:
       enabled: true
   jpa:
     hibernate:
-      ddl-auto: none  # Or create, create-drop, validate as needed
+      ddl-auto: update  # Or create, create-drop, validate as needed
     show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
     change-log: classpath:db/changelog/master.yml
-    enabled: true
+    enabled: false
 logging:
   level:
     org.hibernate.SQL: DEBUG

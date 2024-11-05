@@ -33,6 +33,7 @@ public class CallController {
         }
         if("ice-candidate".equals(message.getType())){
             String recipient = message.getTarget().toString();
+            logger.info("ice target ",recipient);
             messagingTemplate.convertAndSendToUser(recipient, "/queue/call", message);
         }
     }
