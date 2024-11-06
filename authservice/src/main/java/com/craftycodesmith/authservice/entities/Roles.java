@@ -19,4 +19,13 @@ public class Roles {
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     private Set<UserRoles> userRoles;
+
+    // Getter and Setter for 'name'
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
