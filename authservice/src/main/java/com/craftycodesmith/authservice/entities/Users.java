@@ -20,9 +20,9 @@ public class Users implements UserDetails {
     @Column(length = 255, nullable = false)
     private String username;
 
-    // Uncomment and modify if you want to maintain roleId as a separate column
-    // @Column(name = "role_id", nullable = true)
-    // private Long roleId;
+    //     Uncomment and modify if you want to maintain roleId as a separate column
+//    @Column(nullable = false)
+//    private Long roleId;
 
     @Column(length = 255, unique = true, nullable = false)
     private String email;
@@ -47,10 +47,14 @@ public class Users implements UserDetails {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPasswordChange;
 
-    // Relations
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private UserRoles userRoles;
-
+    // Many-to-many relationship with Roles (a user can have many roles)
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles", // Join table between Users and Roles
+            joinColumns = @JoinColumn(name = "user_id"), // Foreign key to the Users table
+            inverseJoinColumns = @JoinColumn(name = "role_id") // Foreign key to the Roles table
+    )
+    private List<Roles> roles;
 
     public Long getId() {
         return id;
@@ -60,7 +64,7 @@ public class Users implements UserDetails {
         this.id = id;
     }
 
-    private List<Roles> roles;
+//    private List<Roles> roles;
 
     @Override
     public String getUsername() {

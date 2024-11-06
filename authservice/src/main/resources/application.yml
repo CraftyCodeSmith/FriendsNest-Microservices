@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: dev
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -10,20 +12,20 @@ spring:
       max-lifetime: 1800000  # 30 minutes
 security:
   jwt:
-    secret-key:secret
+    secret-key:${JWT_SECRET}
     expiration-time:3600000
   devtools:
     livereload:
       enabled: true
   jpa:
     hibernate:
-      ddl-auto: update  # Or create, create-drop, validate as needed
+      ddl-auto: none  # Or create, create-drop, validate as needed
     show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
-    change-log: classpath:db/changelog/master.yml
+    change-log: classpath:resources/db/changelog/db.changelog-master.yaml
     enabled: false
 logging:
   level:
