@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -29,14 +30,18 @@ public class SecurityConfig {
     // Security Filter Chain to configure HttpSecurity
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf((csrf) -> csrf.disable()).authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests.requestMatchers("/auth/login", "/auth/register").permitAll().anyRequest().authenticated()).addFilter(new JwtAuthenticationFilter(jwtService, userDetailsService));
+        http
+                .csrf((csrf) -> csrf.disable())
+                .authorizeHttpRequests((authorizeHttpRequests) ->
+                        authorizeHttpRequests
+                                .requestMatchers("/auth/login", "/auth/register")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
+                ).addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService),
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
-
-//                .authorizeRequests()
-//                .antMatchers("/auth/login", "/auth/register").permitAll()  // Allow public access to login and registration
-//                .anyRequest().authenticated()  // All other requests require authentication
-//                .and()
-//                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtService));  // Add the custom JWT filter
 
         return http.build();
     }
