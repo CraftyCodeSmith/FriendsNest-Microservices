@@ -21,42 +21,33 @@ public class SecurityConfig {
     private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
 
-    // Constructor injection of JwtService and CustomUserDetailsService
     public SecurityConfig(JwtService jwtService, CustomUserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
 
-    // Security Filter Chain to configure HttpSecurity
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf((csrf) -> csrf.disable())
-                .authorizeHttpRequests((authorizeHttpRequests) ->
-                        authorizeHttpRequests
-                                .requestMatchers("/auth/login", "/auth/register")
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()
-                ).addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService),
-                        UsernamePasswordAuthenticationFilter.class
-                );
-
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/auth/login", "/auth/register").permitAll()  // Allow login and register paths
+                        .anyRequest().authenticated()  // Require authentication for all other requests
+                )
+                .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService),
+                        UsernamePasswordAuthenticationFilter.class); // Add JwtAuthenticationFilter before the default authentication filter
 
         return http.build();
     }
 
-    // AuthenticationManager Bean
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
 
-    // Password Encoder Bean
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();  // Use BCrypt for password encoding

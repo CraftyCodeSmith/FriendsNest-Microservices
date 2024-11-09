@@ -1,9 +1,13 @@
 package com.craftycodesmith.authservice.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Collection;
 import java.util.Date;
@@ -11,22 +15,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "Users") // You can change "users" to your desired table name
+@Table(name = "Users")
+@Validated
 public class Users implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 255, nullable = false)
+    @NotBlank(message = "Username is required")
+    @Size(min = 3, max = 255, message = "Username must be between 3 and 255 characters")
+    @Column(length = 255, nullable = false, unique = true)
     private String username;
 
-    //     Uncomment and modify if you want to maintain roleId as a separate column
-//    @Column(nullable = false)
-//    private Long roleId;
-
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email should be valid")
     @Column(length = 255, unique = true, nullable = false)
     private String email;
 
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password should have at least 6 characters")
     @Column(length = 255, nullable = false)
     private String password;
 
@@ -47,14 +55,11 @@ public class Users implements UserDetails {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPasswordChange;
 
-    // Many-to-many relationship with Roles (a user can have many roles)
-    @ManyToMany
-    @JoinTable(
-            name = "user_roles", // Join table between Users and Roles
-            joinColumns = @JoinColumn(name = "user_id"), // Foreign key to the Users table
-            inverseJoinColumns = @JoinColumn(name = "role_id") // Foreign key to the Roles table
-    )
-    private List<Roles> roles;
+    // One-to-many relationship with UserRoles
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UserRoles> userRoles;
+
+    // Getter and Setter methods
 
     public Long getId() {
         return id;
@@ -64,8 +69,6 @@ public class Users implements UserDetails {
         this.id = id;
     }
 
-//    private List<Roles> roles;
-
     @Override
     public String getUsername() {
         return username;
@@ -73,6 +76,10 @@ public class Users implements UserDetails {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -86,29 +93,76 @@ public class Users implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))  // Add "ROLE_" prefix for Spring Security
+        return userRoles.stream()
+                .map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.getRole().getName()))
                 .collect(Collectors.toList());
     }
 
-
     @Override
     public boolean isAccountNonExpired() {
-        return true;  // Assume account is non-expired for now
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;  // Assume account is non-locked
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;  // Assume credentials are non-expired
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;  // Assume the account is enabled
+        return status;
+    }
+
+    public Long getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(Long documentId) {
+        this.documentId = documentId;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public Date getLastPasswordChange() {
+        return lastPasswordChange;
+    }
+
+    public void setLastPasswordChange(Date lastPasswordChange) {
+        this.lastPasswordChange = lastPasswordChange;
+    }
+
+    public List<UserRoles> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRoles> userRoles) {
+        this.userRoles = userRoles;
     }
 }

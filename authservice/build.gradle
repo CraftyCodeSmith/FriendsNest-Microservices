@@ -4,7 +4,6 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
-
 group = 'com.craftycodesmith'
 version = '0.0.1-SNAPSHOT'
 
@@ -26,8 +25,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // For OAuth2 login
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    //For working with jwts
-    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    // For working with JWTs
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'  // Use the latest compatible version
+
+    // JJWT core library (updated to match the version of jjwt-api)
+    implementation 'io.jsonwebtoken:jjwt:0.12.6'
+
+    // JJWT Impl library (updated to match the version of jjwt-api)
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
+
+    // JJWT Jackson (optional but recommended for JSON parsing)
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -60,9 +69,6 @@ dependencies {
 
     // H2 database (for testing)
     runtimeOnly 'com.h2database:h2:2.1.214'
-
-    // Liquibase
-    implementation 'org.liquibase:liquibase-core'
 }
 
 tasks.named('test') {

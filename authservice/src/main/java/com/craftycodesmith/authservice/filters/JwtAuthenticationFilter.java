@@ -28,19 +28,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        // Extract JWT token from Authorization header
+        // Skip processing if the request is for /auth/login or /auth/register
+        if (request.getRequestURI().startsWith("/auth/login") || request.getRequestURI().startsWith("/auth/register")) {
+            chain.doFilter(request, response); // Let the request pass through
+            return;
+        }
+
+        // Your existing JWT processing logic
         String jwt = getJwtFromRequest(request);
         String username = null;
 
         if (jwt != null) {
-            // Extract the username from the token
             username = jwtService.extractUsername(jwt);
 
-            // Validate the token and authenticate the user
             if (jwtService.isTokenValid(jwt)) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-                // Create the authentication token and set the security context
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -48,7 +51,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        // Continue the filter chain
         chain.doFilter(request, response);
     }
 
@@ -60,5 +62,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
-
 }
