@@ -15,10 +15,10 @@ public class messagingservice {
         this.messagingTemplate = messagingTemplate;
     }
 
-    public void sendMessageToClient(UUID clientId, String message) {
-        String sessionId = sessionHandler.getSession(String.valueOf(clientId));
-        if (sessionId != null) {
-            messagingTemplate.convertAndSendToUser(sessionId, "/topic/yourDestination", message);
-        }
-    }
+//    public void sendMessageToClient(UUID clientId, String message) {
+//        String sessionId = sessionHandler.getSession(String.valueOf(clientId));
+//        if (sessionId != null) {
+//            messagingTemplate.convertAndSendToUser(sessionId, "/topic/yourDestination", message);
+//        }
+//    }
 }

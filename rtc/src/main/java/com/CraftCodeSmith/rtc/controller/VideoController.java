@@ -31,22 +31,22 @@ public class VideoController {
     @SendTo("/topic/connected")
     public void connect(SignalMessage message, SimpMessageHeaderAccessor headerAccessor) {
 
-        String clientIdStr = message.getSender(); // Now returns String
-        String sessionId = headerAccessor.getSessionId();
-
-        if (clientIdStr == null || sessionId == null) {
-            System.out.println("Failed to connect, client ID or session missing.");
-            return;
-        }
+//        String clientIdStr = message.getSender(); // Now returns String
+//        String sessionId = headerAccessor.getSessionId();
+        String username = (String) headerAccessor.getSessionAttributes().get("username");
+//        if (clientIdStr == null || sessionId == null) {
+//            System.out.println("Failed to connect, client ID or session missing.");
+//            return;
+//        }
 
         // Create Principal using the clientId string
-        StompPrincipal principal = new StompPrincipal(clientIdStr);
+//        StompPrincipal principal = new StompPrincipal(clientIdStr);
 
         // Set the principal as the user in the header accessor
-        headerAccessor.setUser(principal);
+//        headerAccessor.setUser(principal);
 
         // Map the session with the clientId (both are Strings)
-        sessionHandler.addSession(clientIdStr, sessionId);
+        sessionHandler.addSession(username);
     }
 
     @EventListener
@@ -67,16 +67,17 @@ public class VideoController {
 
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+//        String sessionId = headerAccessor.getSessionId();
+//        String clientId = sessionHandler.getClientIdBySession(sessionId);
+//        sessionHandler.printSessions();
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        String sessionId = headerAccessor.getSessionId();
-        String clientId = sessionHandler.getClientIdBySession(sessionId);
-        sessionHandler.printSessions();
-
-        if (clientId != null) {
-            sessionHandler.removeSession(clientId);
-            System.out.println("Client disconnected: " + clientId + " with session ID: " + sessionId);
+        String username = (String) headerAccessor.getSessionAttributes().get("username");
+        if (username != null) {
+            sessionHandler.removeSession(username);
+//            System.out.println("Client disconnected: " + clientId + " with session ID: " + sessionId);
         } else {
-            System.out.println("Session disconnected without a known client ID: " + sessionId);
+//            System.out.println("Session disconnected without a known client ID: " + sessionId);
         }
     }
 }
